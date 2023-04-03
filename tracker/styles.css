@@ -2,3 +2,24 @@
     max-height: 250px;
     overflow: scroll;
 }
+
+.cb-completed {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.cb-label-completed {
+    margin-left: 5px;
+}
+
+.Drawing {
+    background-color: lightgreen;
+}
+
+.Painting{
+    background-color: lightsalmon;
+}
+
+.Sketching {
+    background-color: goldenrod;
+}

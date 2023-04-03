@@ -76,6 +76,22 @@
                     <label class="form-check-label" for="media2"> Digital </label>
                 </div>
 
+                <!-- <div class="form-check-inline">
+                    <input class="form-check-input" id="cb-completed" type="checkbox" v-model="completed">
+                    <label> Completed? </label>
+                </div> -->
+
+                <div class="cb-completed">
+                    <input type="checkbox" v-model="compelted">
+                    <label class="cb-label-completed"> Completed? </label>
+                </div>
+
+                <div>
+                    <label>Notes:</label>
+                    <br>
+                    <textarea cols="40" rows="5" v-model="notes"></textarea>
+                </div>
+
                 <div>
                     <!-- TODO Add v-on:click -->
                     <button class="btn btn-primary mt-2" type="button" v-on:click="submit">Add record</button>
@@ -98,13 +114,17 @@
                             <th>How many hours?</th>
                             <th>Type</th>
                             <th>Media</th>
+                            <th>Completed?</th>
+                            <th>Notes</th>
                         </tr>
                         <!-- TODO use v-for to create one table row for each activity record -->
-                        <tr v-for="record in activityRecords">
+                        <tr v-for="record in activityRecords" v-bind:class="record.type">
                             <td>{{ shortDate(record.date) }}</td>
                             <td>{{ record.hours }}</td>
                             <td>{{ record.type }}</td>
                             <td>{{ record.medium }}</td>
+                            <td>{{ record.completed }}</td>
+                            <td>{{ truncatedNote(record.notes) }}</td>
                         </tr>
                     </table>
                 </div>
@@ -146,6 +166,12 @@
                 type: '', // set to empty string, so user can choose type
                 medium: '', // no radio button selected, allows user to choose
 
+                // check box set to false
+                completed: false,
+                
+                // notes, set to empty string
+                notes: '',
+                
                 // used for select options 
                 types: ['Sketching','Drawing','Painting'],
 
@@ -182,7 +208,9 @@
                         date: date,
                         hours: this.hours,
                         type: this.type,
-                        medium: this.medium
+                        medium: this.medium,
+                        completed: this.completed,
+                        notes: this.notes
                     }
 
                     this.activityRecords.push(record)
@@ -197,7 +225,10 @@
             },
             shortDate(date) {
                 return new Intl.DateTimeFormat('en-US', {timeZone: 'UTC'}).format(date)
-            } 
+            },
+            truncatedNote(fullNote) {
+                return fullNote.substring(0,40) + "..."
+            }
         },
         computed: {
             totalRecordsMessage() {
